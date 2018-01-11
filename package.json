@@ -1,0 +1,20 @@
+{
+  "name": "compair-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "hunters",
+  "license": "ISC",
+  "dependencies": {
+    "apac": "^3.0.2",
+    "express": "^4.16.2",
+    "walmart": "0.0.4"
+  },
+  "devDependencies": {
+    "mocha": "^4.1.0"
+  }
+}
