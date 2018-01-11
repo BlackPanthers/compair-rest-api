@@ -24,7 +24,10 @@ app.get('/search/:keyword', (req, res) => {
             })
 
             console.log(sortedMappedRes);
-            res.send(sortedMappedRes);
+            var responseObject = {
+                items: sortedMappedRes,
+            }
+            res.send(responseObject);
         }).catch((err) => {
             console.log(err);
         });
