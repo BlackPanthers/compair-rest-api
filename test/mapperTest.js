@@ -37,6 +37,15 @@ describe('Relevance sort test', function () {
        var result = helperFunctions.relevanceSort(testamz,testwm);
        assert.equal(testamz.length + testwm.length , result.length);
     });
+
+    it('Should return one array if the other one is empty', function () {
+        var testamz = [];
+         console.log ("length of amz after cleared - " + testamz.length)
+         var testwm = helperFunctions.mapWalmartToCompair(mockWalmartResponse);
+        var result = helperFunctions.relevanceSort(testamz,testwm);
+        console.log("The result is -" + result.length)
+       assert.equal(testamz.length + testwm.length , result.length);
+    });
     
 });
 
