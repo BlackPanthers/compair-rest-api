@@ -67,9 +67,9 @@ const mapWalmartToCompair = (walmartResponse) => {
 
 
 const relevanceSort = (a, b) => {
-    var minArray = (a <= b) ? a : b;
+    const minArray = (a <= b) ? a : b;
     var result = [];
-    
+
 
     for (var i = 0; i < minArray.length; i++) {
         if (a[i].salePrice <= b[i].salePrice) {
@@ -79,16 +79,15 @@ const relevanceSort = (a, b) => {
             result.push(b[i]);
             result.push(a[i]);
         }
-        if (a.length != b.length){
-            var maxArray = (a.length === minArray.length)? b : a ;
-            result.concat(slice((maxArray.length - 1) ,maxArray.length))
+    }
 
-        }
-
+    if (a.length != b.length) {
+        var maxArray = (a.length === minArray.length) ? b : a;
+        result = result.concat(maxArray.slice(minArray.length, maxArray.length + 1))
     }
     return result;
 }
-module.exports = { mapAmzToCompair, mapWalmartToCompair,relevanceSort};
+module.exports = { mapAmzToCompair, mapWalmartToCompair, relevanceSort };
 
 
 

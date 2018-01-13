@@ -18,3 +18,28 @@ describe('Amazon Mapper Test', function () {
         assert.equal(amazonItems[0].ItemAttributes.Title, mappedResponse[0].name);
     });
 });
+
+describe('Relevance sort test', function () {
+    it('Should return the sum of two arrays', function () {
+        var testamz = helperFunctions.mapAmzToCompair(mockAmzResponse);
+        var testwm = helperFunctions.mapWalmartToCompair(mockWalmartResponse);
+       var result = helperFunctions.relevanceSort(testamz,testwm);
+       assert.equal(testamz.length + testwm.length , result.length);
+    });
+    it('Should return the sum of two arrays with different length', function () {
+        
+        var testamz = helperFunctions.mapAmzToCompair(mockAmzResponse);
+        console.log("Length of amazon -" + testamz.length)
+        testamz.pop();
+        console.log("Length of amazon after pop - " + testamz.length)
+        var testwm = helperFunctions.mapWalmartToCompair(mockWalmartResponse);
+        console.log("Length of Walmart -  " +testwm.length)
+       var result = helperFunctions.relevanceSort(testamz,testwm);
+       assert.equal(testamz.length + testwm.length , result.length);
+    });
+    
+});
+
+
+
+
