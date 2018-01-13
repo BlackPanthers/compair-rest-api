@@ -20,13 +20,7 @@ app.get('/search/:keyword', (req, res) => {
             return walmart.search(keyword, "");
         }).then((walmartResponse) => {
             mappedWalmartResponse = helperFunctions.mapWalmartToCompair(walmartResponse);
-            var mappedRes = mappedWalmartResponse.concat(mappedAmzResponse);
-            var sortedMappedRes = mappedRes.sort((a, b) => {
-                return parseFloat(a.salePrice) - parseFloat(b.salePrice);
-            })
-            var responseObject = {
-                items: sortedMappedRes,
-            }
+            responseObject = helperFunctions.relevanceSort(mappedWalmartResponse, mappedAmzResponse);
             res.send(responseObject);
         })
         .catch((err) => {
