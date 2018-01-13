@@ -20,7 +20,10 @@ app.get('/search/:keyword', (req, res) => {
             return walmart.search(keyword, "");
         }).then((walmartResponse) => {
             mappedWalmartResponse = helperFunctions.mapWalmartToCompair(walmartResponse);
-            responseObject = helperFunctions.relevanceSort(mappedWalmartResponse, mappedAmzResponse);
+            combinedItems = helperFunctions.relevanceSort(mappedWalmartResponse, mappedAmzResponse);
+            var responseObject = {
+                items: combinedItems
+            }
             res.send(responseObject);
         })
         .catch((err) => {
