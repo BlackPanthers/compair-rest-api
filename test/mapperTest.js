@@ -26,8 +26,8 @@ describe('Relevance sort test', function () {
        var result = helperFunctions.relevanceSort(testamz,testwm);
        assert.equal(testamz.length + testwm.length , result.length);
     });
+
     it('Should return the sum of two arrays with different length', function () {
-        
         var testamz = helperFunctions.mapAmzToCompair(mockAmzResponse);
         console.log("Length of amazon -" + testamz.length)
         testamz.pop();
