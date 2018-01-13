@@ -1,3 +1,5 @@
+
+
 const mapAmzToCompair = (amazonResponse) => {
     var items = amazonResponse.ItemSearchResponse.Items.Item;
     var ret = [];
@@ -32,12 +34,10 @@ const mapAmzToCompair = (amazonResponse) => {
         ret.push(newItem);
 
     }
-   // console.log(ret);
     return ret;
 }
 
 const mapWalmartToCompair = (walmartResponse) => {
-    //console.log(walmartResponse);
     var ret = [];
     if (walmartResponse.numItems > 0) {
         items = walmartResponse.items;
@@ -61,5 +61,34 @@ const mapWalmartToCompair = (walmartResponse) => {
     }
     return ret;
 }
-module.exports = { mapAmzToCompair, mapWalmartToCompair };
+
+
+
+
+
+const relevanceSort = (a, b) => {
+    var minArray = (a <= b) ? a : b;
+    var result = [];
+    
+
+    for (var i = 0; i < minArray.length; i++) {
+        if (a[i].salePrice <= b[i].salePrice) {
+            result.push(a[i]);
+            result.push(b[i]);
+        } else {
+            result.push(b[i]);
+            result.push(a[i]);
+        }
+        if (a.length != b.length){
+            var maxArray = (a.length === minArray.length)? b : a ;
+            result.concat(slice((maxArray.length - 1) ,maxArray.length))
+
+        }
+
+    }
+    return result;
+}
+module.exports = { mapAmzToCompair, mapWalmartToCompair,relevanceSort};
+
+
 
