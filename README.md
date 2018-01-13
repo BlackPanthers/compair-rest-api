@@ -1,6 +1,6 @@
 # compair-rest-api
 
-# add api credentials to root folder as apikeys.js
+## Add api credentials to root folder as apikeys.js
 
 ```javascript
 const walmartApiKey = "Your API key";
