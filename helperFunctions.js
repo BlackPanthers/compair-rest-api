@@ -1,5 +1,3 @@
-
-
 const mapAmzToCompair = (amazonResponse) => {
     var items = amazonResponse.ItemSearchResponse.Items.Item;
     var ret = [];
@@ -10,18 +8,22 @@ const mapAmzToCompair = (amazonResponse) => {
         //if list price does not exist
         var price = (item.ItemAttributes.ListPrice == undefined) ? item.OfferSummary.LowestNewPrice.Amount : item.ItemAttributes.ListPrice.Amount;
 
-        //if meduim image does not exist use image set
-        var firstImageSet = item.ImageSets.ImageSet[0];
-        var smallImage = (item.SmallImage == undefined) ? firstImageSet.SmallImage.URL : item.SmallImage.URL;
-        var mediumImage = (item.MediumImage == undefined) ? firstImageSet.MediumImage.URL : item.MediumImage.URL;
-        var largeImage = (item.LargeImage == undefined) ? firstImageSet.LargeImage.URL : item.LargeImage.URL;
+        var smallImage, mediumImage, largeImage;
 
+        //if some form of image exists
+        if (item.ImageSet || item.MediumImage) {
+            var ImageSet = item.ImageSets.ImageSet;
+            var firstImageSet = (ImageSet.constructor === Array) ? ImageSet[0] : ImageSet;
+            smallImage = (item.SmallImage == undefined) ? firstImageSet.SmallImage.URL : item.SmallImage.URL;
+            mediumImage = ("MediumImage" in item) ? item.MediumImage.URL : firstImageSet.MediumImage.URL;
+            largeImage = (item.LargeImage == undefined) ? firstImageSet.LargeImage.URL : item.LargeImage.URL;
+        }
         var newItem = {
             retailer: 'Amazon',
             ASIN: item.ASIN,
             name: item.ItemAttributes.Title,
             shortDescription: item.ItemAttributes.Feature,
-            salePrice: price * 0.01,
+            salePrice: (price * 0.01).toFixed(2),
             offerSummary: item.OfferSummary,
             offers: item.Offers,
             mediumImage: mediumImage,
@@ -52,7 +54,7 @@ const mapWalmartToCompair = (walmartResponse) => {
                 salePrice: item.salePrice,
                 mediumImage: item.mediumImage,
                 largeImage: item.largeImage,
-                productURL: item.productURL,
+                productURL: item.productUrl,
                 images: item.imageEntities,
             };
             ret.push(newItem);

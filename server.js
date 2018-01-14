@@ -6,7 +6,12 @@ const helperFunctions = require('./helperFunctions');
 var walmart = require('walmart')(apiKeys.walmartApiKey);
 const opHelper = new OperationHelper(apiKeys.amazondetails);
 
-
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Content-Type', 'application/json');
+    next();
+});
 app.get('/search/:keyword', (req, res) => {
     const keyword = req.params.keyword;
     var mappedAmzResponse = [];
@@ -24,7 +29,8 @@ app.get('/search/:keyword', (req, res) => {
             var responseObject = {
                 items: combinedItems
             }
-            res.send(responseObject);
+
+            res.send(JSON.stringify(responseObject));
         })
         .catch((err) => {
             console.error("Something went wrong! ", err);
