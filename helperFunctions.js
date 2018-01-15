@@ -4,10 +4,15 @@ const mapAmzToCompair = (amazonResponse) => {
     items
 
     for (var index in items) {
-        var item = items[index];
-        //if list price does not exist
-        var price = (item.ItemAttributes.ListPrice == undefined) ? item.OfferSummary.LowestNewPrice.Amount : item.ItemAttributes.ListPrice.Amount;
 
+        var item = items[index];
+        console.log("Stated mapping amazon item ASIN: " + item.ASIN)
+
+        //if item is not available return price of 0
+        var price = 0;
+        if (item.ItemAttributes.ListPrice || item.OfferSummary.LowestNewPrice) {
+            price = (item.ItemAttributes.ListPrice == undefined) ? item.OfferSummary.LowestNewPrice.Amount : item.ItemAttributes.ListPrice.Amount;
+        }
         var smallImage, mediumImage, largeImage;
 
         //if some form of image exists
@@ -18,6 +23,7 @@ const mapAmzToCompair = (amazonResponse) => {
             mediumImage = ("MediumImage" in item) ? item.MediumImage.URL : firstImageSet.MediumImage.URL;
             largeImage = (item.LargeImage == undefined) ? firstImageSet.LargeImage.URL : item.LargeImage.URL;
         }
+
         var newItem = {
             retailer: 'Amazon',
             ASIN: item.ASIN,
@@ -32,7 +38,7 @@ const mapAmzToCompair = (amazonResponse) => {
             productURL: item.DetailPageURL,
             images: item.ImageSets,
         };
-
+        console.log("Sucessfully mapped amazon item: " + item.ASIN)
         ret.push(newItem);
 
     }
@@ -44,8 +50,10 @@ const mapWalmartToCompair = (walmartResponse) => {
     if (walmartResponse.numItems > 0) {
         items = walmartResponse.items;
 
+
         for (var index in items) {
             var item = items[index];
+            console.log("Started mapping walmart item: " + item.itemId)
             var newItem = {
                 retailer: 'Walmart',
                 itemId: item.itemId,
@@ -57,6 +65,7 @@ const mapWalmartToCompair = (walmartResponse) => {
                 productURL: item.productUrl,
                 images: item.imageEntities,
             };
+            console.log("Sucessfuly mapped walmart item: " + item.itemId)
             ret.push(newItem);
         }
 
